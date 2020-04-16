@@ -11,24 +11,42 @@ import {
   ErrorMsg,
 } from "./styles";
 
-export const SignUp = () => {
-  const [userInput, setUserInput] = useReducer(
-    (state, newState) => ({ ...state, ...newState }),
-    {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      err: "",
-    }
-  );
-  const handleChange = (evt) => {
-    const name = evt.target.name;
-    const newValue = evt.target.value;
-    setUserInput({ [name]: newValue, err: "" });
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "updateField":
+      return {
+        ...state,
+        [action.field]: action.value,
+      };
 
-    console.log(userInput.err);
+    case "setError":
+      return {
+        ...state,
+        err: action.err,
+      };
+  }
+};
+
+const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+  err: "",
+};
+
+export const SignUp = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const handleChange = (e) => {
+    dispatch({
+      type: "updateField",
+      field: e.target.name,
+      value: e.target.value,
+    });
+
+    console.log(state);
   };
 
   const handleSignup = () => {
@@ -38,28 +56,33 @@ export const SignUp = () => {
   };
 
   const checkForm = () => {
-    if (userInput.firstName.trim() === "" || userInput.lastName.trim() === "") {
-      setUserInput({ err: "Please fill in your first and last name" });
+    if (state.firstName.trim() === "" || state.lastName.trim() === "") {
+      dispatch({
+        type: "setError",
+        err: "Please fill in your first and last name",
+      });
     }
 
-    if (userInput.email.trim() === "") {
-      return setUserInput({ err: "Please enter your email" });
+    if (state.email.trim() === "") {
+      dispatch({ type: "setError", err: "Please enter your email" });
     }
 
-    if (userInput.password.trim() === "") {
-      return setUserInput({
+    if (state.password.trim() === "") {
+      return dispatch({
+        type: "setError",
         err: "Password must not just contain spaces",
       });
     }
 
-    if (userInput.password.length >= 8) {
-      return setUserInput({
+    if (state.password.length >= 8) {
+      return dispatch({
+        type: "setError",
         err: "Password must be at least 8 characters long",
       });
     }
 
-    if (userInput.password !== userInput.confirmPassword) {
-      return setUserInput({ err: "Passwords do not match" });
+    if (state.password !== state.confirmPassword) {
+      return dispatch({ type: "setError", err: "Passwords do not match" });
     }
   };
 
@@ -78,7 +101,7 @@ export const SignUp = () => {
               label='First Name'
               id='firstName'
               name='firstName'
-              value={userInput.firstName}
+              value={state.firstName}
               onChange={handleChange}
               required={true}
             />
@@ -89,7 +112,7 @@ export const SignUp = () => {
               label='Last Name'
               id='lastName'
               name='lastName'
-              value={userInput.lastName}
+              value={state.lastName}
               onChange={handleChange}
               required={true}
             />
@@ -101,7 +124,7 @@ export const SignUp = () => {
               id='email'
               name='email'
               type='email'
-              value={userInput.email}
+              value={state.email}
               onChange={handleChange}
               required={true}
             />
@@ -114,7 +137,7 @@ export const SignUp = () => {
               id='password'
               name='password'
               label='Password'
-              value={userInput.password}
+              value={state.password}
               onChange={handleChange}
               required={true}
             />
@@ -127,12 +150,12 @@ export const SignUp = () => {
               id='confirmPassword'
               name='confirmPassword'
               label='Confirm Password'
-              value={userInput.confirmPassword}
+              value={state.confirmPassword}
               onChange={handleChange}
               required={true}
             />
 
-            <ErrorMsg>{userInput.err !== "" ? userInput.err : null}</ErrorMsg>
+            <ErrorMsg>{state.err !== "" ? state.err : null}</ErrorMsg>
             <SubmitButton onClick={handleSignup}>Sign Up!</SubmitButton>
           </form>
 
