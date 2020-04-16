@@ -53,6 +53,27 @@ export const SignUp = () => {
     if (!checkForm()) {
       return;
     }
+
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(state.email, state.password)
+      .then(
+        (authRes) => {
+          const userObj = {
+            email: authRes.user.email,
+            writeOuts: [],
+          };
+          firebase
+            .firestore()
+            .collection("users")
+            .doc(state.email)
+            .set(userObj);
+        },
+        (authErr) => {
+          console.log("Failed to create user: ", authErr);
+          dispatch({ type: "setError", err: "Failed to add user" });
+        }
+      );
   };
 
   const checkForm = () => {
