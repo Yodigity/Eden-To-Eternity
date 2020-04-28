@@ -6,18 +6,20 @@ import {
   Redirect,
 } from "react-router-dom";
 import "./App.css";
-import { SignUp } from "./Components/SignUp/SignUp";
-import { Home } from "./Components/Home/Home";
-import { LogIn } from "./Components/LogIn/LogIn";
+import Navbar from "./Components/Navbar/Navbar";
+import Signup from "./Components/Signup/Signup";
+import Home from "./Components/Home/Home";
+import Login from "./Components/Login/Login";
 
 function App() {
   return (
     <div className='App'>
       <Router>
+        <Navbar />
         <Switch>
           <Route exact path='/' component={Home}></Route>
-          <Route path='/signup' component={SignUp}></Route>
-          <Route path='/login' component={LogIn}></Route>
+          <Route path='/signup' component={Signup}></Route>
+          <Route path='/login' component={Login}></Route>
         </Switch>
       </Router>
     </div>
