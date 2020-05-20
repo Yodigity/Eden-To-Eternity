@@ -1,26 +1,30 @@
 import React, { Component } from "react";
-import { Grid } from "@material-ui/core";
-import Axios from "axios";
 import Talk from "../../Components/Talk/Talk";
+import Profile from "../../Components/Profile/Profile.js";
+import PropTypes from "prop-types";
+import TalkSkeleton from "../../util/TalkSkeleton";
+
+import Grid from "@material-ui/core/Grid";
+import withStyles from "@material-ui/core/styles/withStyles";
+
+import { connect } from "react-redux";
+import { setTalks } from "../../redux/actions/dataActions";
+
+const styles = (theme) => ({
+  ...theme.spreadIt,
+});
 
 class Home extends Component {
-  state = { talks: null };
-
   componentDidMount() {
-    Axios.get("/talks")
-      .then((res) => {
-        console.log(res.data);
-        this.setState({ talks: res.data });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.props.setTalks();
   }
   render() {
-    let talkMarkup = this.state.talks ? (
-      this.state.talks.map((talk) => <Talk key={talk.talkId} talk={talk} />)
+    const { talks, loading } = this.props.data;
+
+    let talkMarkup = !loading ? (
+      talks.map((talk) => <Talk key={talk.talkId} talk={talk} />)
     ) : (
-      <p>Loading</p>
+      <TalkSkeleton />
     );
 
     return (
@@ -29,11 +33,20 @@ class Home extends Component {
           {talkMarkup}
         </Grid>
         <Grid item sm={4} xs={12}>
-          Profile Area
+          <Profile />
         </Grid>
       </Grid>
     );
   }
 }
 
-export default Home;
+Home.propTypes = {
+  setTalks: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  data: state.data,
+});
+
+export default connect(mapStateToProps, { setTalks })(withStyles(styles)(Home));

@@ -2,17 +2,20 @@ export const styles = {
   card: {
     position: "relative",
     display: "flex",
-    margin: 20,
+    marginLeft: 70,
+    marginBottom: 20,
   },
+
   header: {
     backgroundColor: "lightBlue",
     margin: 0,
   },
-  image: {
-    margin: "auto",
+  date: {
+    display: "block",
   },
+  image: { marginLeft: 20 },
   content: {
-    padding: 25,
+    padding: 20,
     objectFit: "cover",
   },
 };

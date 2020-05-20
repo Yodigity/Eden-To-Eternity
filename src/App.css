@@ -8,3 +8,7 @@
 .container {
   margin: 5rem auto;
 }
+
+.nav-container svg {
+  color: #fff;
+}
