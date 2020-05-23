@@ -3,6 +3,9 @@ export const styles = {
     alignContent: "center",
     margin: 20,
   },
+  customError: {
+    marginBottom: 10,
+  },
 
   paper: {
     marginTop: 15,

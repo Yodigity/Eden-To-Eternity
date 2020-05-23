@@ -27,17 +27,26 @@ const styles = (theme) => ({
 });
 
 class PostTalk extends Component {
-  state = { open: false, body: "", errors: {} };
+  state = { open: false, body: "", errors: this.props.UI.errors };
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.UI.errors) {
-      this.setState({ errors: nextProps.UI.errors });
+  static getDerivedStateFromProps(props, state) {
+    if (props.UI.errors !== state.errors) {
+      return {
+        errors: props.UI.errors,
+      };
     }
-
-    if (!nextProps.UI.errors && !nextProps.UI.loading) {
-      this.setState({ body: "", open: false, errors: {} });
-    }
+    return null;
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.UI.errors) {
+  //     this.setState({ errors: nextProps.UI.errors });
+  //   }
+
+  //   if (!nextProps.UI.errors && !nextProps.UI.loading) {
+  //     this.setState({ body: "", open: false, errors: {} });
+  //   }
+  // }
 
   handleOpen = () => {
     this.setState({ open: true });
@@ -59,6 +68,7 @@ class PostTalk extends Component {
 
     const newTalk = { body: this.state.body };
     this.props.postTalk(newTalk);
+    this.setState({ body: "" });
   };
   render() {
     const {
@@ -95,8 +105,8 @@ class PostTalk extends Component {
                 rows='3'
                 onChange={this.handleChange}
                 value={this.state.body}
-                error={errors.error ? true : false}
-                helperText={errors.error}
+                error={errors ? true : false}
+                helperText={errors ? errors.error : null}
                 className={classes.textField}
               />
             </form>

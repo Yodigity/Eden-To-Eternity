@@ -15,15 +15,26 @@ const styles = (theme) => ({
 });
 
 class CommentForm extends Component {
-  state = { commentBody: "", errors: {} };
+  state = { commentBody: "", prevErrors: {}, errors: {} };
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.UI.errors) {
-      this.setState({ errors: nextProps.UI.errors });
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.UI.errors) {
+  //     this.setState({ errors: nextProps.UI.errors });
+  //   }
+  //   if (!nextProps.UI.errors && !nextProps.UI.loading) {
+  //     this.setState({ commentBody: "" });
+  //   }
+  // }
+
+  static getDerivedStateFromProps(nextprops, prevState) {
+    if (nextprops.UI.errors !== prevState.errors) {
+      console.log(nextprops);
+      return {
+        prevErrors: nextprops.UI.errors,
+        errors: nextprops.UI.errors,
+      };
     }
-    if (!nextProps.UI.errors && !nextProps.UI.loading) {
-      this.setState({ commentBody: "" });
-    }
+    return null;
   }
 
   handleChange = (e) => {
@@ -37,10 +48,11 @@ class CommentForm extends Component {
     this.props.submitComment(this.props.talkId, {
       body: this.state.commentBody,
     });
+    this.setState({ commentBody: "" });
   };
   render() {
     const { classes, authenticated, type } = this.props;
-    const { errors } = this.state.errors;
+    const { errors } = this.state;
 
     const commentform = authenticated ? (
       <Fragment>
@@ -52,7 +64,7 @@ class CommentForm extends Component {
               onChange={this.handleChange}
               label='Make a comment'
               error={errors ? true : false}
-              helperText={errors}
+              helperText={errors ? errors.body : false}
               value={this.state.commentBody}
               className={classes.textField}
               fullWidth

@@ -49,6 +49,7 @@ export const getUserData = () => (dispatch) => {
   dispatch({ type: LOADING_USER });
   Axios.get("/user")
     .then((res) => {
+      console.log(res.data);
       dispatch({ type: SET_USER, payload: res.data });
     })
     .catch((err) => {

@@ -14,20 +14,33 @@ import { connect } from "react-redux";
 import { loginUser } from "../../redux/actions/userActions";
 
 class Login extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       email: "",
       password: "",
+      prevErrors: {},
       errors: {},
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.UI.errors) {
-      this.setState({ errors: nextProps.UI.errors });
+  static getDerivedStateFromProps(nextprops, prevState) {
+    if (nextprops.UI.errors !== prevState.errors) {
+      console.log(nextprops);
+      return {
+        prevErrors: nextprops.UI.errors,
+        errors: nextprops.UI.errors,
+      };
     }
+    return null;
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.UI.errors) {
+  //     this.setState({ errors: nextProps.UI.errors });
+  //   }
+  // }
+
   handleSubmit = (e) => {
     e.preventDefault();
 
@@ -44,7 +57,11 @@ class Login extends React.Component {
     this.setState({ [name]: newValue });
   };
   render() {
-    const { classes } = this.props;
+    const {
+      classes,
+      UI: { loading },
+    } = this.props;
+
     const { errors } = this.state;
     return (
       <div>
@@ -62,8 +79,8 @@ class Login extends React.Component {
                 className={classes.textField}
                 variant='outlined'
                 label='Email'
-                helperText={errors.email}
-                error={errors.email ? true : false}
+                helperText={errors ? errors.email : false}
+                error={errors === null ? false : errors.email || errors.general}
                 id='email'
                 name='email'
                 value={this.state.email}
@@ -78,18 +95,26 @@ class Login extends React.Component {
                 id='password'
                 name='password'
                 label='Password'
-                helperText={errors.password}
-                error={errors.password ? true : false}
+                helperText={errors ? errors.password : false}
+                error={
+                  errors === null ? false : errors.password || errors.general
+                }
                 value={this.state.password}
                 onChange={this.handleChange}
                 fullWidth
               />
 
-              {errors.general && (
-                <Typography variant='body2' className={classes.customError}>
-                  {errors.general}
-                </Typography>
-              )}
+              {errors
+                ? errors.general && (
+                    <Typography
+                      variant='body2'
+                      color='secondary'
+                      className={classes.customError}
+                    >
+                      {errors.general}
+                    </Typography>
+                  )
+                : null}
 
               <Button
                 className={classes.button}

@@ -36,7 +36,6 @@ export class User extends Component {
   render() {
     const { talks, loading } = this.props.data;
     const { talkIdParam } = this.state;
-    console.log(this.props);
 
     const talkMarkup = loading ? (
       <TalkSkeleton />

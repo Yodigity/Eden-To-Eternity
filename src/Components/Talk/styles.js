@@ -7,15 +7,15 @@ export const styles = {
   },
 
   header: {
-    backgroundColor: "lightBlue",
-    margin: 0,
+    // backgroundColor: "lightBlue",
   },
+
   date: {
     display: "block",
   },
-  image: { marginLeft: 20 },
+  image: { minWidth: 200, width: 50 },
   content: {
-    padding: 20,
+    padding: 25,
     objectFit: "cover",
   },
 };

@@ -22,7 +22,6 @@ export const setTalks = () => (dispatch) => {
   Axios.get("/talks")
     .then((res) => {
       dispatch({ type: SET_TALKS, payload: res.data });
-      console.log(res.data);
     })
     .catch((err) => {
       dispatch({ type: SET_TALKS, payload: [] });

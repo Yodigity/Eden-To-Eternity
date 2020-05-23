@@ -29,9 +29,9 @@ export default function (state = initialState, action) {
         (talk) => talk.talkId === action.payload.talkId
       );
       state.talks[index] = action.payload;
-      if (state.talk.talkId === action.payload.talkId) {
-        state.talk = action.payload;
-      }
+      // if (state.talk.talkId === action.payload.talkId) {
+      //   state.talk = action.payload;
+      // }
       return { ...state };
     case POST_TALK:
       return { ...state, talks: [action.payload, ...state.talks] };

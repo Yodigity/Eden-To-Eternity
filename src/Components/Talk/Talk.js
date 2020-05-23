@@ -9,9 +9,9 @@ import TalkDialog from "../TalkDialog/TalkDialog";
 import PropTypes from "prop-types";
 
 import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
+
 import CardContent from "@material-ui/core/CardContent";
-import Avatar from "@material-ui/core/Avatar";
+
 import Typography from "@material-ui/core/Typography";
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -19,6 +19,7 @@ import { styles } from "./styles";
 
 //redux
 import { connect } from "react-redux";
+import { CardMedia } from "@material-ui/core";
 
 class Talk extends Component {
   render() {
@@ -26,7 +27,7 @@ class Talk extends Component {
     const {
       classes,
       talk: {
-        imageUrl,
+        userImage,
         body,
         userHandle,
         createdAt,
@@ -48,18 +49,16 @@ class Talk extends Component {
     return (
       <Fragment>
         <Card className={classes.card}>
-          <CardHeader
-            avatar={
-              <Avatar
-                className={classes.image}
-                src={imageUrl}
-                aria-label='user'
-                component={Link}
-                to={`/users/${userHandle}`}
-              ></Avatar>
-            }
-            className={classes.header}
-          />
+          <CardMedia className={classes.header}>
+            <img
+              className={classes.image}
+              src={userImage}
+              aria-label='user'
+              component={Link}
+              to={`/users/${userHandle}`}
+              alt='Profile'
+            />
+          </CardMedia>
 
           <CardContent className={classes.content}>
             <Typography
@@ -68,7 +67,7 @@ class Talk extends Component {
               to={`/users/${userHandle}`}
               color='primary'
             >
-              {userHandle}
+              @{userHandle}
             </Typography>
             <Typography variant='h6' color='textPrimary'>
               {body}

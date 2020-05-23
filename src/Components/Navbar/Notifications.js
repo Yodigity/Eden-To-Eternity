@@ -32,7 +32,7 @@ class Notifications extends Component {
   onMenuOpened = () => {
     let unreadNotificationIds = this.props.notifications
       .filter((notification) => !notification.read)
-      .map((not) => not.notification.Id);
+      .map((not) => not.notificationId);
     this.props.markNotificationsRead(unreadNotificationIds);
   };
 
@@ -78,13 +78,16 @@ class Notifications extends Component {
             );
 
           return (
-            <MenuItem onClick={this.handleClose}>
+            <MenuItem
+              onClick={this.handleClose}
+              key={notification.notificationId}
+            >
               {icon}
               <Typography
                 component={Link}
                 to={`/users/${notification.recipient}/talk/${notification.talkId}`}
               >
-                `${person}${verb} your talk ${time}`}
+                {`${person}${verb} your talk ${time}`}
               </Typography>
             </MenuItem>
           );

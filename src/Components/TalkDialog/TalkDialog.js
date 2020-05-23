@@ -12,7 +12,6 @@ import ButtonIcon from "../../util/ButtonIcon";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Dialog from "@material-ui/core/Dialog";
 import Grid from "@material-ui/core/Grid";
-import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import Typography from "@material-ui/core/Typography";
 import CloseButton from "@material-ui/icons/Close";
@@ -62,6 +61,7 @@ class TalkDialog extends Component {
     const { userHandle, talkId } = this.props;
 
     const newPath = `/users/${userHandle}/talk/${talkId}`;
+    if (oldPath === newPath) oldPath = `/users/${userHandle}`;
 
     window.history.pushState(null, null, newPath);
 
@@ -84,7 +84,7 @@ class TalkDialog extends Component {
         createdAt,
         likeCount,
         commentCount,
-        imageUrl,
+        userImage,
         userHandle,
         comments,
       },
@@ -99,7 +99,7 @@ class TalkDialog extends Component {
     ) : (
       <Grid container spacing={10}>
         <Grid item sm={5}>
-          <img src={imageUrl} alt='Profile' className={classes.profileImage} />
+          <img src={userImage} alt='Profile' className={classes.profileImage} />
         </Grid>
         <Grid item sm={7}>
           <Typography
@@ -158,7 +158,6 @@ class TalkDialog extends Component {
           <DialogContent className={classes.dialogContent}>
             {dialogMarkup}
           </DialogContent>
-          <DialogActions></DialogActions>
         </Dialog>
       </Fragment>
     );
