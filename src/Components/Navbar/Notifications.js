@@ -87,7 +87,7 @@ class Notifications extends Component {
                 component={Link}
                 to={`/users/${notification.recipient}/talk/${notification.talkId}`}
               >
-                {`${person}${verb} your talk ${time}`}
+                {`${person} ${verb} your talk ${time}`}
               </Typography>
             </MenuItem>
           );

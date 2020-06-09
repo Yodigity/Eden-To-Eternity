@@ -35,12 +35,6 @@ class Login extends React.Component {
     return null;
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.UI.errors) {
-  //     this.setState({ errors: nextProps.UI.errors });
-  //   }
-  // }
-
   handleSubmit = (e) => {
     e.preventDefault();
 
@@ -57,10 +51,7 @@ class Login extends React.Component {
     this.setState({ [name]: newValue });
   };
   render() {
-    const {
-      classes,
-      UI: { loading },
-    } = this.props;
+    const { classes } = this.props;
 
     const { errors } = this.state;
     return (

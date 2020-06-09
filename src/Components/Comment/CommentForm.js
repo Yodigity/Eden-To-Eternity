@@ -17,15 +17,6 @@ const styles = (theme) => ({
 class CommentForm extends Component {
   state = { commentBody: "", prevErrors: {}, errors: {} };
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.UI.errors) {
-  //     this.setState({ errors: nextProps.UI.errors });
-  //   }
-  //   if (!nextProps.UI.errors && !nextProps.UI.loading) {
-  //     this.setState({ commentBody: "" });
-  //   }
-  // }
-
   static getDerivedStateFromProps(nextprops, prevState) {
     if (nextprops.UI.errors !== prevState.errors) {
       console.log(nextprops);

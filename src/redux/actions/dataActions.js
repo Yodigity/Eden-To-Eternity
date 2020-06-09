@@ -58,6 +58,7 @@ export const postTalk = (talkData) => (dispatch) => {
 export const likeTalk = (talkId) => (dispatch) => {
   Axios.get(`/talk/${talkId}/like`)
     .then((res) => {
+      console.log(res.data);
       dispatch({ type: LIKE_TALK, payload: res.data });
     })
     .catch((err) => {
