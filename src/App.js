@@ -42,6 +42,7 @@ class App extends React.Component {
           <Router>
             <Navbar />
             <div className='container'>
+              {console.log("lol!")}
               <Switch>
                 <Route exact path='/' component={Home}></Route>
                 <AuthRoute path='/signup' component={Signup} />
